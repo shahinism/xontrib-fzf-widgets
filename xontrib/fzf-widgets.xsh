@@ -3,10 +3,6 @@ import re
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.filters import Condition, EmacsInsertMode, ViInsertMode
 
-def check_command(cmd):
-    result = $(which @(cmd))
-    return os.path.exists(result)
-
 
 class RequiredCommand:
     def __init__(self, cmd):
@@ -23,6 +19,11 @@ class RequiredCommand:
             return wrapped
         else:
             return error
+
+
+def check_command(cmd):
+    result = $(which @(cmd))
+    return os.path.exists(result)
 
 
 def get_fzf_selector():
@@ -42,26 +43,23 @@ def fzf_insert(items, current_buffer, prefix='', suffix=''):
 
 @events.on_ptk_create
 def custom_keybindings(bindings, **kw):
-    def handler(key):
+    def handler(key_name):
         def do_nothing(func):
             pass
 
+        key = ${...}.get(key_name)
         if key:
             return bindings.registry.add_binding(key)
         return do_nothing
 
-    @handler(fzf_history_binding)
+    @handler('fzf_history_binding')
     @RequiredCommand('fzf')
     def fzf_history(event):
         items = $(history show all)
         fzf_insert(items, event.current_buffer)
 
-    @handler(fzf_ssh_binding)
+    @handler('fzf_ssh_binding')
     @RequiredCommand('fzf')
     def fzf_ssh(event):
         items = re.sub(r'(?i)host ', '', $(cat ~/.ssh/config /etc/ssh/ssh_config | grep -i '^host'))
         fzf_insert(items, event.current_buffer, prefix='ssh ')
-
-
-fzf_history_binding = Keys.ControlR
-fzf_ssh_binding = Keys.ControlS

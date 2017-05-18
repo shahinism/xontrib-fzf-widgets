@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='xontrib-fzf-widgets',
-    version='0.3',
+    version='0.0.1',
     url='https://github.com/shahinism/xontrib-fzf-widgets',
     license='GPLv3',
     author='Shahin Azad',

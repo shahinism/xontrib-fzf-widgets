@@ -3,7 +3,6 @@ import re
 from prompt_toolkit.keys import Keys
 from prompt_toolkit.filters import Condition, EmacsInsertMode, ViInsertMode
 
-
 def check_command(cmd):
     result = $(which @(cmd))
     return os.path.exists(result)

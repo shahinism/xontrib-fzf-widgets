@@ -6,11 +6,12 @@ from prompt_toolkit.filters import Condition, EmacsInsertMode, ViInsertMode
 
 class RequiredCommand:
     def __init__(self, cmd):
-        self.cmd = check_command(cmd)
+        cmd_path = get_command_path(cmd)
+        self.cmd = cmd_path if cmd else cmd
 
     def __call__(self, func):
-        def error():
-            print("fzf-widgets: command not found: {}".format(self.cmd))
+        def error(msg):
+            print("\nfzf-widgets: command not found: {}".format(self.cmd))
 
         def wrapped(*args):
             func(*args)
@@ -21,9 +22,9 @@ class RequiredCommand:
             return error
 
 
-def check_command(cmd):
+def get_command_path(cmd):
     result = $(which @(cmd))
-    return os.path.exists(result)
+    return os.path.exists(result) if result else None
 
 
 def get_fzf_selector():

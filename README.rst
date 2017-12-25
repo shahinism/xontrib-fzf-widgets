@@ -44,5 +44,6 @@ Enable it by adding `fzf-widgets` to your `~/.config/xonsh/config.json` file:
 And set your desired keybindings for each widget in `~/.xonshrc` file or set it to `None` to disable it:
 
 .. code-block:: python
+
     $fzf_history_binding = Keys.ControlR
     $fzf_ssh_binding = Keys.ControlS

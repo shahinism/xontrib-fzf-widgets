@@ -43,7 +43,7 @@ def fzf_insert(items, current_buffer, prefix='', suffix=''):
 
 
 @events.on_ptk_create
-def custom_keybindings(bindings, **kw):
+def custom_keybindings(shortcut, history, completer, bindings, **kw):
     def handler(key_name):
         def do_nothing(func):
             pass

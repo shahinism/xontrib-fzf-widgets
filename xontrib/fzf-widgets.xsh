@@ -35,11 +35,11 @@ def get_fzf_selector():
 
 def fzf_insert(items, current_buffer, prefix='', suffix=''):
     selector = get_fzf_selector()
-    choice = $(echo @(items) | @(selector) --tac  --tiebreak=index +m).replace('\n', '')
+    choice = $(echo @(items) | @(selector) --tac -q @(current_buffer.text) --tiebreak=index +m).replace('\n', '')
 
     if choice:
         command = prefix + choice + suffix
-        current_buffer.insert_text(command)
+        current_buffer.text = command
 
 
 @events.on_ptk_create
